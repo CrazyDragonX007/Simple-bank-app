@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Home from './Components/Home';
-import Login from './Components/Login';
-import Register from './Components/Register';
+
 
 class App extends Component {
 render(){
