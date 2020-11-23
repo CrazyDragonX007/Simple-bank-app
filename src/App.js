@@ -7,7 +7,7 @@ class App extends Component {
 render(){
   return (
     <BrowserRouter>
-    <div>
+    <div style={{margin:"35px",alignItems:"centre"}}>
         <Home/>
     </div>
     </BrowserRouter>

@@ -23,10 +23,17 @@ router.post('/', function(req, res, next) {
 	const usr=req.body.username;
 	const init={balance: 0, username: usr};
 	if(parseInt(req.body.typeOf)===1){
-		knex('users').insert(user).then(()=>{
-			knex('accounts').insert(init).then(res.send("Account opened and customer user created"));});
+		knex('users').insert(user).asCallback(function(err) {
+    if (err) {
+       res.send(err);
+    } else {
+		knex('accounts').insert(init).then(res.send("success"));
+    }
+})
 	}else{
-		knex('users').insert(user).then(res.send("Banked id created"));
+		knex('users').insert(user).asCallback(function(err) {
+			if(err){res.send(err);}else{res.send("success");}
+		});
 	}
 });
 

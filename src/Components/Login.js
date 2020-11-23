@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 import {validateFields} from '../utils/utilities';
 import {Route} from 'react-router-dom';
 import Transact from './Transact';
@@ -19,14 +19,10 @@ class Login extends Component {
     event.preventDefault();
     const { username, password } = this.state;
     const fieldsToValidate = [{ username }, { password }];
-
     const allFieldsEntered = validateFields(fieldsToValidate);
     if (!allFieldsEntered) {
-      this.setState({
-        errorMsg: {
-          signin_error: 'Please enter all the fields.'
-        }
-      });
+      	alert("Please enter all fields.");
+      	this.setState({errorMsg:"less fields"});
     } else {
     	const data={username,password};
     	const requestOptions = {
@@ -38,16 +34,22 @@ class Login extends Component {
       	.then(res=>{console.log(res);
       		const usr = jwt(res); 
       		localStorage.setItem('token', res);
-      		let user=usr.username;
       		let typ=usr.usertype;
+      		let user=usr.username;
       		if(typ==='0'){
       		this.setState({isBanker:true, errorMsg:''});
+      		this.props.history.push('/banker');
       	}else if(typ==='1'){
       		this.setState({isCustomer:true, errorMsg:''});
+      		this.props.history.push({
+      			pathname:'/customer',
+      			state:{username:user}
+      		});
       	}else{
+      		console.log(res);
       		this.setState({errorMsg:res});
       	}
-      });
+      }).catch(res=>alert("Error"))
     }
   };
 
@@ -60,26 +62,11 @@ class Login extends Component {
   };
 
   render() {
-    const { errorMsg } = this.state;
-    let trans='';
-    let transactions='';
-    if(this.state.isCustomer){
-    	trans= <Transact username={this.state.username}/>;
-    	transactions=<TransactionList username={this.state.username}/>
-    }else if(this.state.isBanker){
-
-    	trans=<UserList isBanker={true}/>
-    }
     return (
       <div>
         <h1>Login</h1>
         <div>
           <Form onSubmit={this.handleLogin}>
-            {errorMsg && errorMsg.signin_error && (
-              <p className="errorMsg centered-message">
-                {errorMsg.signin_error}
-              </p>
-            )}
             <Form.Group controlId="username">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -105,7 +92,6 @@ class Login extends Component {
             </div>
           </Form>
         </div>
-        {trans}{transactions}
       </div>
     );
   }

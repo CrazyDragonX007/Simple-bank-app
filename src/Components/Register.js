@@ -30,22 +30,14 @@ class Register extends Component {
 
     const allFieldsEntered = validateFields(fieldsToValidate);
     if (!allFieldsEntered) {
-      this.setState({
-        errorMsg: {
-          signup_error: 'Please enter all the fields.'
-        }
-      });
+      alert("Please enter all fields.");
     } else {
       if (password !== cpassword) {
-        this.setState({
-          errorMsg: {
-            signup_error: 'Password and confirm password does not match.'
-          }
-        });
+        alert("Password and confirm password do not match");
       } else {
         //console.log("11");
         const data={typeOf,first_name,last_name,username,password};
-    const requestOptions = {
+        const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -55,9 +47,9 @@ class Register extends Component {
       .then(res=>{
         if(res==="success"){
           this.setState({isSubmitted:true,successMsg:res});
-        }else{
-          this.setState({errorMsg:res});
           alert(res);
+        }else{
+          alert("error");
         }
       });
       }
@@ -78,15 +70,6 @@ class Register extends Component {
         <h2>Register User</h2>
         <div>
           <Form onSubmit={this.registerUser}>
-            {errorMsg && errorMsg.signup_error ? (
-              <p>
-                {errorMsg.signup_error}
-              </p>
-            ) : (
-              isSubmitted && (
-                <p>{successMsg}</p>
-              )
-            )}
             <Form.Group controlId="first_name">
               <Form.Label>First name</Form.Label>
               <Form.Control

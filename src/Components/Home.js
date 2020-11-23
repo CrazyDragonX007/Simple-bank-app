@@ -3,6 +3,7 @@ import {Route, Link} from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import UserList from './UserList';
+import Customer from './Customer';
 
 class Home extends Component{
 	render(){
@@ -18,6 +19,7 @@ class Home extends Component{
   		<Route path="/register" exact component={Register} />
   		<Route path="/login" exact component={Login} />
   		<Route path="/banker" exact component={UserList} />
+  		<Route path="/customer" exact component={Customer} />
   	</div>
   	)
 }}

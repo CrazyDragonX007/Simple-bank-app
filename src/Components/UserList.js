@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Alert } from 'react-bootstrap';
 import TransactionList from './TransactionList';
 
 class UserList extends Component{
@@ -8,7 +8,6 @@ class UserList extends Component{
 		balances:[],
 		toShow:false,
 		user:'',
-		isBanker:false
 	}
 
 	componentDidMount(){
@@ -19,11 +18,11 @@ class UserList extends Component{
 		let uri="http://localhost:9000/users";
 		fetch(uri,reqOp).then(res=>res.json()).then(res=>{
 			console.log(res);
-			this.balance(res).then(U=>{this.setState({users:res, balances:U, isBanker:this.props.isBanker});console.log(U);});
+			this.balance(res).then(U=>{this.setState({users:res, balances:U});console.log(U);});
 		});
 	}
 	balance=async(usrs)=>{
-		console.log(localStorage.getItem('token'));
+		//console.log(localStorage.getItem('token'));
 		let bals=[];
 		const reqOp = {
         method: 'GET',
@@ -35,8 +34,11 @@ class UserList extends Component{
 			console.log(bals);
 		})
 	)))
-		//console.log(usr);
+		console.log(bals);
 		return bals;
+	}
+	force=()=>{
+		this.forceUpdate();
 	}
 
 	show=usr=>{
@@ -45,11 +47,15 @@ class UserList extends Component{
 
 	render(){
 		let trs='';
-		let tmp='';
 		if(this.state.toShow){
-			trs=<TransactionList username={this.state.user}/>;
-		}if(this.state.isBanker){
-			tmp=(this.state.users.map((u,i)=>
+			trs=<TransactionList key={this.state.user} username={this.state.user}/>;
+		}
+		return(
+			<div>
+				<h1>Banker View</h1>
+				<h3>List of Customers</h3>
+				{this.state.users.map((u,i)=>
+					<Alert variant="dark" key={u.userId}>
 					<div>
 						<p>First name: {u.firstName}</p>
 						<p>Last name: {u.lastName}</p>
@@ -58,15 +64,9 @@ class UserList extends Component{
 						<p>Balance: {this.state.balances[i]}</p>
 						<Button onClick={()=>this.show(u.userName)}>Show Transactions</Button>
 					</div>
-				))
-		}else{
-			tmp=<p>Please login first</p>
-		}
-		return(
-			<div>
-				<h1>Banker View</h1>
-				<h3>List of Customers</h3>
-				{tmp}{trs}
+					</Alert>
+				)}
+				{trs}
 			</div>
 	)}	
 }

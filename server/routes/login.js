@@ -15,20 +15,20 @@ var knex = require('knex')({
 
 
 router.post('/', function(req, res, next) {
-	const usr=req.body.username;
+  const usr=req.body.username;
 
   knex.from('users').select('pass','user_type').where({userName:usr})
   .then(rows=>{
-  	if(!rows || !rows[0]){
-  		res.send("Invalid username");
-  	}else{
-  	if(rows[0].pass==req.body.password){
+    if(!rows || !rows[0]){
+      res.send("Invalid username");
+    }else{
+    if(rows[0].pass==req.body.password){
       let payload = {username: usr};
-  		if(rows[0].user_type==0){
-  			payload.usertype='0';
-  		}else{
-  			payload.usertype='1';
-  		}
+      if(rows[0].user_type==0){
+        payload.usertype='0';
+      }else{
+        payload.usertype='1';
+      }
       //console.log(payload);
       let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         algorithm: "HS384",
@@ -37,10 +37,10 @@ router.post('/', function(req, res, next) {
       //console.log(accessToken);
     res.json(accessToken);
     res.send();
-  		
-  	}else{
-  		res.send("Incorrect Pass");
-  	}}
+      
+    }else{
+      res.send("Incorrect Pass");
+    }}
 });
 });
 

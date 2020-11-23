@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Alert} from 'react-bootstrap';
 
 class TransactionList extends Component{
 	state={
@@ -21,14 +22,16 @@ class TransactionList extends Component{
 			<div>
 				<h1>List of transactions for user: {this.props.username}</h1>
 					{this.state.transactions.map(t=>
+						<Alert variant="primary" key={t.transactionId}>
 						<div>
-							<p>Transaction Id: {t.transactionId}</p>
+							<Alert.Heading>Transaction Id: {t.transactionId}</Alert.Heading>
 							<p>Closing Balance: {t.balance}</p>
 							<p>Added: {t.added}</p>
 							<p>Withdrawn: {t.withdrawn}</p>
 							<p>Transaction Date and Time: {t.transDT}</p>
 							<br></br>
 						</div>
+						</Alert>
 					)}
 			</div>
 		)

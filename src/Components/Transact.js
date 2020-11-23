@@ -61,11 +61,11 @@ class Transact extends Component{
   }
 	render(){
 		return(
-			<div>
+			<div style={{margin:"10px"}}>
 				<h3>balance is: {this.state.balance}</h3>
-				<input type="number" name="amount" placeholder="Enter amount" onChange={this.handleChange}/>
-				<Button onClick={this.add} name="add">Add Amount</Button>
-				<Button onClick={this.deduct} name="deduct">Withdraw Amount</Button>
+				<input style={{margin:"10px"}} type="number" name="amount" placeholder="Enter amount" onChange={this.handleChange}/>
+				<Button style={{margin:"10px"}} variant="primary" onClick={this.add} name="add">Add Amount</Button>
+				<Button variant="primary" onClick={this.deduct} name="deduct">Withdraw Amount</Button>
 			</div>
 		)
 	}
