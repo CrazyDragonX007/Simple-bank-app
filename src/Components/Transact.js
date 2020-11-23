@@ -8,8 +8,12 @@ class Transact extends Component{
 		error:''
 	}
 	componentDidMount(props){
+		const reqOp = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token')}
+    	};
 		let uri="http://localhost:9000/viewbal?username="+this.props.username;
-		fetch(uri).then(res=>res.text())
+		fetch(uri,reqOp).then(res=>res.text())
       .then(res=>{
       	console.log(res);
       	this.setState({balance:res});
@@ -45,8 +49,12 @@ class Transact extends Component{
   			er=0;
   		}
   	}if(er===0){
+  		const reqOp = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token')}
+    	};
   		let uri="http://localhost:9000/transact?username="+this.props.username+'&amount='+amt+'&type='+x;
-  		fetch(uri).then(res=>res.text()).then(res=>{
+  		fetch(uri,reqOp).then(res=>res.text()).then(res=>{
   			this.setState({balance:res,amount:amt});
   		});
   	}

@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
@@ -11,7 +12,8 @@ var login=require("./routes/login");
 var viewbal=require("./routes/viewbal");
 var transact=require("./routes/transact");
 var transactions=require("./routes/transactions");
-
+require('dotenv').config();
+const {verify} = require('./middleware');
 var app = express();
 
 // view engine setup
@@ -24,6 +26,9 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json())
+
+app.post('/login', login)
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

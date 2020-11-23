@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var {verify}=require('../middleware');
 
 var knex = require('knex')({
   client: 'mysql',
@@ -11,8 +12,8 @@ var knex = require('knex')({
   }
 });
 
-router.get("/",function(req, res, next) {
-	//console.log(req.query);
+router.get("/",verify,function(req, res, next) {
+	//console.log(req.headers);
 	const user=req.query.username;
 	knex.from('accounts').select('balance').where({username:user}).orderBy('transDT','desc')
 	.then(row=>{

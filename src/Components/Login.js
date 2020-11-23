@@ -5,6 +5,7 @@ import {Route} from 'react-router-dom';
 import Transact from './Transact';
 import TransactionList from './TransactionList';
 import UserList from './UserList';
+import jwt from 'jwt-decode';
 
 class Login extends Component {
   state = {
@@ -32,18 +33,21 @@ class Login extends Component {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-    };
-    	fetch("http://localhost:9000/login",requestOptions).then(res=>res.text())
+    	};
+    	fetch("http://localhost:9000/login",requestOptions).then(res=>res.json())
       	.then(res=>{console.log(res);
-      	if(res==='0'){
+      		const usr = jwt(res); 
+      		localStorage.setItem('token', res);
+      		let user=usr.username;
+      		let typ=usr.usertype;
+      		if(typ==='0'){
       		this.setState({isBanker:true, errorMsg:''});
-      	}else if(res==='1'){
+      	}else if(typ==='1'){
       		this.setState({isCustomer:true, errorMsg:''});
       	}else{
       		this.setState({errorMsg:res});
       	}
       });
-      // login successful
     }
   };
 

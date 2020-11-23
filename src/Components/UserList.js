@@ -12,16 +12,25 @@ class UserList extends Component{
 	}
 
 	componentDidMount(){
+		const reqOp = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token')}
+    	};
 		let uri="http://localhost:9000/users";
-		fetch(uri).then(res=>res.json()).then(res=>{
+		fetch(uri,reqOp).then(res=>res.json()).then(res=>{
 			console.log(res);
 			this.balance(res).then(U=>{this.setState({users:res, balances:U, isBanker:this.props.isBanker});console.log(U);});
 		});
 	}
 	balance=async(usrs)=>{
+		console.log(localStorage.getItem('token'));
 		let bals=[];
+		const reqOp = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token')}
+    	};
 		await Promise.all(usrs.map(async u=>await(
-			await fetch("http://localhost:9000/viewbal?username="+u.userName).then(res=>res.text()).then(res=>{
+			await fetch("http://localhost:9000/viewbal?username="+u.userName,reqOp).then(res=>res.text()).then(res=>{
 			bals.push(res);
 			console.log(bals);
 		})

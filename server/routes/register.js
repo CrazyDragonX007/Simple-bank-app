@@ -12,7 +12,7 @@ var knex = require('knex')({
 });
 
 router.post('/', function(req, res, next) {
-	console.log(req.body);
+	//console.log(req.body);
 	// knex.from('users').select("*").then((rows)=>{});
 	const user={user_type: parseInt(req.body.typeOf),
 	 firstName: req.body.first_name, 

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const {verify} = require('../middleware');
 
 var knex = require('knex')({
   client: 'mysql',
@@ -11,9 +12,9 @@ var knex = require('knex')({
   }
 });
 
-router.get("/",function(req, res, next) {
+router.get("/",verify,function(req, res, next) {
 	knex.from('users').where('user_type','1').then(rows=>{
-		console.log(rows);
+		//console.log(rows);
 		res.send(rows);
 	});
 

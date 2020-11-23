@@ -6,12 +6,15 @@ class TransactionList extends Component{
 	}
 
 	componentDidMount(props){
+		const reqOp = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token')}
+    	};
 		let uri="http://localhost:9000/transactions?username="+this.props.username;
-		fetch(uri).then(res=>res.json()).then(res=>{
+		fetch(uri,reqOp).then(res=>res.json()).then(res=>{
 			this.setState({transactions:res});
 			console.log(this.state.transactions);
 		});
-		
 	}
 	render(){
 		return(
