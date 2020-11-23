@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Alert } from 'react-bootstrap';
 import TransactionList from './TransactionList';
+import withAuth from "../utils/withAuth";
+import {Link} from 'react-router-dom';
 
 class UserList extends Component{
 	state={
@@ -19,7 +21,7 @@ class UserList extends Component{
 		fetch(uri,reqOp).then(res=>res.json()).then(res=>{
 			console.log(res);
 			this.balance(res).then(U=>{this.setState({users:res, balances:U});console.log(U);});
-		});
+		}).catch(er=>alert("Please relogin to continue"));
 	}
 	balance=async(usrs)=>{
 		//console.log(localStorage.getItem('token'));
@@ -52,6 +54,7 @@ class UserList extends Component{
 		}
 		return(
 			<div>
+			<Link to="/">Back to home</Link>
 				<h1>Banker View</h1>
 				<h3>List of Customers</h3>
 				{this.state.users.map((u,i)=>
@@ -71,4 +74,4 @@ class UserList extends Component{
 	)}	
 }
 
-export default UserList;
+export default withAuth(UserList);

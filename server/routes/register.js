@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var bcrypt = require("bcryptjs");
 
 var knex = require('knex')({
   client: 'mysql',
@@ -11,14 +12,17 @@ var knex = require('knex')({
   }
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
 	//console.log(req.body);
 	// knex.from('users').select("*").then((rows)=>{});
+	let pass=req.body.password;
+	pass=await bcrypt.hash(pass, 8).then(p=>p);
+	//console.log(pass);
 	const user={user_type: parseInt(req.body.typeOf),
 	 firstName: req.body.first_name, 
 	 lastName:req.body.last_name,
 	 userName:req.body.username,
-	 pass:req.body.password
+	 pass:pass
 	}
 	const usr=req.body.username;
 	const init={balance: 0, username: usr};

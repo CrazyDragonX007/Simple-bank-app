@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { validateFields } from '../utils/utilities';
+import {Link} from 'react-router-dom';
 
 class Register extends Component {
   state = {
@@ -67,6 +68,7 @@ class Register extends Component {
     const { errorMsg, successMsg, isSubmitted } = this.state;
     return (
       <div>
+      <Link to="/">Back to home</Link>
         <h2>Register User</h2>
         <div>
           <Form onSubmit={this.registerUser}>

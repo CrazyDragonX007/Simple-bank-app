@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Form, Button} from 'react-bootstrap';
 import {validateFields} from '../utils/utilities';
-import {Route} from 'react-router-dom';
+import {Route, Link} from 'react-router-dom';
 import Transact from './Transact';
 import TransactionList from './TransactionList';
 import UserList from './UserList';
@@ -64,6 +64,7 @@ class Login extends Component {
   render() {
     return (
       <div>
+      <Link to="/">Back to home</Link>
         <h1>Login</h1>
         <div>
           <Form onSubmit={this.handleLogin}>

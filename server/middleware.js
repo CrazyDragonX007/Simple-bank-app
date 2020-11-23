@@ -13,6 +13,6 @@ exports.verify = function(req, res, next){
     }
     catch(e){
         console.log(e);
-        return res.status(401).send();
+        return res.status(401).send("error");
     }
 }

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const jwt = require('jsonwebtoken');
+var bcrypt = require("bcryptjs");
+var jwt = require('jsonwebtoken');
 
 var knex = require('knex')({
   client: 'mysql',
@@ -12,17 +13,17 @@ var knex = require('knex')({
   }
 });
 
-
-
-router.post('/', function(req, res, next) {
+router.post('/',async function(req, res, next) {
   const usr=req.body.username;
-
+  const pass=req.body.password;
   knex.from('users').select('pass','user_type').where({userName:usr})
-  .then(rows=>{
+  .then(async rows=>{
     if(!rows || !rows[0]){
       res.send("Invalid username");
     }else{
-    if(rows[0].pass==req.body.password){
+      const b=await bcrypt.compare(pass,rows[0].pass).then(b=>b);
+      //console.log(b);
+    if(b){
       let payload = {username: usr};
       if(rows[0].user_type==0){
         payload.usertype='0';
