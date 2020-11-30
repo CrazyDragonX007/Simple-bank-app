@@ -49,6 +49,7 @@ class Register extends Component {
         if(res==="success"){
           this.setState({isSubmitted:true,successMsg:res});
           alert(res);
+          this.props.history.push('/login');
         }else{
           alert("error");
         }
@@ -65,7 +66,6 @@ class Register extends Component {
   };
 
   render() {
-    const { errorMsg, successMsg, isSubmitted } = this.state;
     return (
       <div>
       <Link to="/">Back to home</Link>

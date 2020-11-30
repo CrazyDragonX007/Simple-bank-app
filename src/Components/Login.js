@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import { Form, Button} from 'react-bootstrap';
 import {validateFields} from '../utils/utilities';
-import {Route, Link} from 'react-router-dom';
-import Transact from './Transact';
-import TransactionList from './TransactionList';
-import UserList from './UserList';
+import {Link} from 'react-router-dom';
 import jwt from 'jwt-decode';
 
 class Login extends Component {
@@ -48,6 +45,7 @@ class Login extends Component {
       	}else{
       		console.log(res);
       		this.setState({errorMsg:res});
+          alert("Server Error. Try Later");
       	}
       }).catch(res=>alert("Error"))
     }

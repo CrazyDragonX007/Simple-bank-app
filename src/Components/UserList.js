@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 class UserList extends Component{
 	state={
 		users:[],
-		balances:[],
+		balances:'',
 		toShow:false,
 		user:'',
 	}
@@ -20,37 +20,26 @@ class UserList extends Component{
 		let uri="http://localhost:9000/users";
 		fetch(uri,reqOp).then(res=>res.json()).then(res=>{
 			console.log(res);
-			this.balance(res).then(U=>{this.setState({users:res, balances:U});console.log(U);});
-		}).catch(er=>alert("Please relogin to continue"));
+			this.setState({users:res})}).catch(er=>alert(er));
 	}
-	balance=async(usrs)=>{
-		//console.log(localStorage.getItem('token'));
-		let bals=[];
-		const reqOp = {
+
+	show=async(usr)=>{
+        const reqOp = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token')}
     	};
-		await Promise.all(usrs.map(async u=>await(
-			await fetch("http://localhost:9000/viewbal?username="+u.userName,reqOp).then(res=>res.text()).then(res=>{
-			bals.push(res);
-			console.log(bals);
-		})
-	)))
-		console.log(bals);
-		return bals;
-	}
-	force=()=>{
-		this.forceUpdate();
-	}
-
-	show=usr=>{
-		this.setState({toShow:true,user:usr});
+        await fetch("http://localhost:9000/viewbal?username="+usr,reqOp).then(res=>res.text()).then(res=>
+            this.setState({toShow:true,user:usr,balances:res}));
+        console.log("done");
+		
 	}
 
 	render(){
 		let trs='';
 		if(this.state.toShow){
-			trs=<TransactionList key={this.state.user} username={this.state.user}/>;
+            
+			trs=<div><h2>Balance: {this.state.balances}</h2>
+			<TransactionList key={this.state.user} username={this.state.user}/></div>;
 		}
 		return(
 			<div>
@@ -64,8 +53,7 @@ class UserList extends Component{
 						<p>Last name: {u.lastName}</p>
 						<p>Username: {u.userName}</p>
 						<p>user Id: {u.userID}</p>
-						<p>Balance: {this.state.balances[i]}</p>
-						<Button onClick={()=>this.show(u.userName)}>Show Transactions</Button>
+						<Button onClick={()=>this.show(u.userName)}>Show Transactions and Balance</Button>
 					</div>
 					</Alert>
 				)}

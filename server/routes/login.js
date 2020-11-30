@@ -2,16 +2,10 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
+var {verify,options} = require('../middleware');
+var knex = require('knex')(options);
 
-var knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host : '127.0.0.1',
-    user : 'root',
-    password : 'root1234',
-    database : 'Bank'
-  }
-});
+require('dotenv').config();
 
 router.post('/',async function(req, res, next) {
   const usr=req.body.username;

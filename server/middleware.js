@@ -1,4 +1,15 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+exports.options = {
+  client: 'mysql',
+  connection: {
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB
+  }
+};
 
 exports.verify = function(req, res, next){
     let accessToken = req.headers.authorization;

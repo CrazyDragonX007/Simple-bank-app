@@ -12,8 +12,7 @@ var login=require("./routes/login");
 var viewbal=require("./routes/viewbal");
 var transact=require("./routes/transact");
 var transactions=require("./routes/transactions");
-require('dotenv').config();
-const {verify} = require('./middleware');
+
 var app = express();
 
 // view engine setup

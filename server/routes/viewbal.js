@@ -1,16 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var {verify}=require('../middleware');
+var {verify,options} = require('../middleware');
 
-var knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host : '127.0.0.1',
-    user : 'root',
-    password : 'root1234',
-    database : 'Bank'
-  }
-});
+var knex = require('knex')(options);
+
 
 router.get("/",verify,function(req, res, next) {
 	//console.log(req.headers);

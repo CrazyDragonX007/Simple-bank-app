@@ -1,16 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const {verify} = require('../middleware');
+var {verify,options} = require('../middleware');
 
-var knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host : '127.0.0.1',
-    user : 'root',
-    password : 'root1234',
-    database : 'Bank'
-  }
-});
+var knex = require('knex')(options);
+
 
 router.get("/",verify,function(req, res, next) {
 	knex.from('users').where('user_type','1').then(rows=>{
